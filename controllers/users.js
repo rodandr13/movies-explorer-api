@@ -2,9 +2,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const {errors} = require("celebrate");
-const {NotFoundError} = require("../errors/NotFoundError");
-const {ValidationError} = require("../errors/ValidationError");
+const { NotFoundError } = require('../errors/NotFoundError');
+const { ValidationError } = require('../errors/ValidationError');
+const { ConflictError } = require('../errors/ConflictError');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const createUser = (req, res, next) => {
@@ -13,6 +14,7 @@ const createUser = (req, res, next) => {
     email,
     password,
   } = req.body;
+
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({
@@ -37,10 +39,11 @@ const createUser = (req, res, next) => {
       }
       next(error);
     });
-}
+};
 
 const getUser = (req, res, next) => {
   const { id } = req.params;
+
   User.findById(id)
     .then((user) => {
       if (!user) {
@@ -55,10 +58,11 @@ const getUser = (req, res, next) => {
         next(error);
       }
     });
-}
+};
 
 const getCurrentUser = ((req, res, next) => {
   const userId = req.user._id;
+
   User.findById(userId)
     .then((user) => {
       if (!user) {
@@ -67,7 +71,7 @@ const getCurrentUser = ((req, res, next) => {
       res.send(user);
     })
     .catch(next);
-})
+});
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
@@ -75,7 +79,7 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign(
-        { _id: user._id},
+        { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
@@ -83,14 +87,15 @@ const login = (req, res, next) => {
         maxAge: 3600000,
         httpOnly: true,
         sameSite: true,
-      }).send({token});
+      }).send({ token });
     })
     .catch(next);
-}
+};
 
 const updateUser = (req, res, next) => {
   const { name, email } = req.body;
   const userId = req.user._id;
+
   User.findByIdAndUpdate(userId, { name, email }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
@@ -104,8 +109,8 @@ const updateUser = (req, res, next) => {
       } else {
         next(error);
       }
-    })
-}
+    });
+};
 
 module.exports = {
   createUser,
@@ -113,4 +118,4 @@ module.exports = {
   getCurrentUser,
   updateUser,
   login,
-}
+};

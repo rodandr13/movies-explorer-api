@@ -1,7 +1,7 @@
 const Movie = require('../models/movie');
-const {ValidationError} = require("../errors/ValidationError");
-const {login} = require("./users");
-const {ForbiddenError} = require("../errors/ForbiddenError");
+const { ValidationError } = require('../errors/ValidationError');
+const { ForbiddenError } = require('../errors/ForbiddenError');
+const { NotFoundError } = require('../errors/NotFoundError');
 
 const createMovie = (req, res, next) => {
   const {
@@ -17,20 +17,8 @@ const createMovie = (req, res, next) => {
     thumbnail,
     movieId,
   } = req.body;
-  console.log({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    nameRU,
-    nameEN,
-    thumbnail,
-    movieId,
-  })
   const owner = req.user._id;
+
   Movie.create({
     country,
     director,
@@ -55,19 +43,21 @@ const createMovie = (req, res, next) => {
         next(error);
       }
     });
-}
+};
 
 const getFavoriteMovies = (req, res, next) => {
   const userId = req.user._id;
-  Movie.find({owner: userId})
+
+  Movie.find({ owner: userId })
     .then((movies) => {
       res.send(movies);
     })
     .catch(next);
-}
+};
 
 const deleteMovie = (req, res, next) => {
   const { movieId } = req.params;
+
   Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
@@ -88,10 +78,10 @@ const deleteMovie = (req, res, next) => {
         next(error);
       }
     });
-}
+};
 
 module.exports = {
   createMovie,
   getFavoriteMovies,
   deleteMovie,
-}
+};
