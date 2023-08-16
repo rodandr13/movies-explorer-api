@@ -13,6 +13,8 @@ const { auth } = require('./middlewares/auth');
 const errorHandler = require('./middlewares/error-handler');
 const { NotFoundError } = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { cors } = require('./middlewares/cors');
+const { signinValidation, signupValidation } = require('./middlewares/validation');
 
 const app = express();
 const { PORT = 3001, MONGODB_URI = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
@@ -24,9 +26,10 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use(helmet());
 app.use(bodyParser.json());
+app.use(cors);
 app.use(requestLogger);
-app.use('/signin', login);
-app.use('/signup', createUser);
+app.use('/signin', signinValidation, login);
+app.use('/signup', signupValidation, createUser);
 app.use('/users', auth, usersRouter);
 app.use('/movies', auth, moviesRouter);
 app.use(auth, (req, res, next) => {
