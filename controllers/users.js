@@ -84,12 +84,16 @@ const login = (req, res, next) => {
         { expiresIn: '7d' },
       );
       res.cookie('jwt', token, {
-        maxAge: 3600000,
+        maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         sameSite: true,
       }).send({ token });
     })
     .catch(next);
+};
+
+const logout = (req, res) => {
+  res.clearCookie('jwt').send({ message: 'Вы успешно вышли.' });
 };
 
 const updateUser = (req, res, next) => {
@@ -118,4 +122,5 @@ module.exports = {
   getCurrentUser,
   updateUser,
   login,
+  logout,
 };
