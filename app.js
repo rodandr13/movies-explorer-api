@@ -4,20 +4,17 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { cors } = require('./middlewares/cors');
 const routes = require('./routes');
+const { limiter } = require('./middlewares/limiter');
+const { DEV_DB, DEV_PORT } = require('./utils/constans');
 
 const app = express();
-const { PORT = 3001, MONGODB_URI = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
+const { PORT = DEV_PORT, MONGODB_URI = DEV_DB } = process.env;
 mongoose.connect(MONGODB_URI);
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-});
 
 app.use(limiter);
 app.use(helmet());
