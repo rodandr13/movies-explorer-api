@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 
@@ -18,7 +17,7 @@ mongoose.connect(MONGODB_URI);
 
 app.use(limiter);
 app.use(helmet());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors);
 app.use(requestLogger);
 

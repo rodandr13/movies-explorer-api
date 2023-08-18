@@ -11,7 +11,8 @@ const {
   USER_NOT_FOUND_MSG,
   LOGOUT_SUCCESS_MSG,
   INVALID_USER_ID_MSG,
-  USER_ALREADY_EXISTS_MSG, MONGO_DUPLICATE_KEY_ERROR,
+  USER_ALREADY_EXISTS_MSG,
+  MONGO_DUPLICATE_KEY_ERROR,
 } = require('../utils/constans');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -34,6 +35,7 @@ const createUser = (req, res, next) => {
       res.send({
         _id: user._id,
         name: user.name,
+        email: user.email,
       });
     })
     .catch((error) => {
