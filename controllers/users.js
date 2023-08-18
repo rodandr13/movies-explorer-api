@@ -108,11 +108,15 @@ const updateUser = (req, res, next) => {
       res.send(user);
     })
     .catch((error) => {
-      if (error.name === 'CastError') {
-        next(new ValidationError('Недопустимый _id пользователя.'));
-      } else {
-        next(error);
+      if (error.code === 11000) {
+        next(new ConflictError('Такой email уже существует'));
+        return;
       }
+      if (error.name === 'CastError') {
+        next(new ValidationError('Переданы некорректные данные.'));
+        return;
+      }
+      next(error);
     });
 };
 
