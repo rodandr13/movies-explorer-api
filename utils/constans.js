@@ -33,6 +33,8 @@ const CONFLICT_CODE = 409;
 
 const MONGO_DUPLICATE_KEY_ERROR = 11000;
 
+const VALID_URL_EXPRESSION = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)$/i;
+
 module.exports = {
   ALLOWED_CORS,
   DEFAULT_ALLOWED_METHODS,
@@ -60,4 +62,5 @@ module.exports = {
   FORBIDDEN_CODE,
   CONFLICT_CODE,
   MONGO_DUPLICATE_KEY_ERROR,
+  VALID_URL_EXPRESSION,
 };

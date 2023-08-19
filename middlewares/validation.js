@@ -1,4 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
+const { VALID_URL_EXPRESSION } = require('../utils/constans');
 
 const signupValidation = celebrate({
   body: Joi.object().keys({
@@ -29,11 +30,11 @@ const createMovieValidation = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required().min(2).max(30),
     description: Joi.string().required(),
-    image: Joi.string().required().uri(),
-    trailerLink: Joi.string().required().uri(),
+    image: Joi.string().required().regex(VALID_URL_EXPRESSION),
+    trailerLink: Joi.string().required().regex(VALID_URL_EXPRESSION),
     nameRU: Joi.string().required().min(2).max(30),
     nameEN: Joi.string().required().min(2).max(30),
-    thumbnail: Joi.string().required().uri(),
+    thumbnail: Joi.string().required().regex(VALID_URL_EXPRESSION),
     movieId: Joi.number().required(),
   }),
 });
