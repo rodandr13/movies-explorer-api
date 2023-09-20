@@ -1,6 +1,15 @@
 const ALLOWED_CORS = [
   'http://frontend.nomoredomainsrocks.ru',
   'https://frontend.nomoredomainsrocks.ru',
+  'https://api.backend.nomoreparties.co',
+  'http://api.backend.nomoreparties.co',
+  'localhost:3001',
+  'http://localhost:3001',
+  'localhost:3000',
+  'http://localhost:3000',
+  '*',
+  'http://127.0.0.1:3000',
+  '127.0.0.1:3000',
 ];
 const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 const DEV_DB = 'mongodb://127.0.0.1:27017/bitfilmsdb';
