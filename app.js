@@ -25,6 +25,7 @@ app.use(
       'https://frontend.nomoredomainsrocks.ru',
       'http://frontend.nomoredomainsrocks.ru',
       'http://localhost:3000',
+      'http://127.0.0.1:3000',
     ],
     credentials: true,
   }),
@@ -36,7 +37,6 @@ app.use(cookieParser());
 app.use(routes);
 
 app.use(errorLogger);
-app.use(errors());
-app.use(errorHandler);
+
 
 app.listen(PORT);
