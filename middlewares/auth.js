@@ -6,9 +6,7 @@ const { AUTHORIZATION_REQUIRED_MSG } = require('../utils/constans');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const auth = (req, res, next) => {
-  console.log('req.cookies', req.cookies);
   const token = req.cookies.jwt;
-  console.log('token', token);
 
   if (!token) {
     next(new UnauthorizedError(AUTHORIZATION_REQUIRED_MSG));

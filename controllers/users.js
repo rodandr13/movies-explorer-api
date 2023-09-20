@@ -113,7 +113,7 @@ const checkAuth = (req, res) => {
     jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
     res.json({ loggedIn: true });
   } catch (error) {
-    res.status(401).json({ loggedIn: false, message: 'Unauthorized' });
+    res.json({ loggedIn: false });
   }
 };
 
