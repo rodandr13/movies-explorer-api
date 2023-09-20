@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-
+const { errors } = require('celebrate');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -18,7 +18,7 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 };
-
+const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes');
 const { limiter } = require('./middlewares/limiter');
