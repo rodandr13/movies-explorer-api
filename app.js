@@ -5,19 +5,7 @@ const { errors } = require('celebrate');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const { ALLOWED_CORS } = require('./utils/constans');
 
-const corsOptions = {
-  origin(origin, callback) {
-    if (ALLOWED_CORS.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Ошибка CORS'));
-    }
-  },
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-};
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes');
@@ -31,7 +19,17 @@ mongoose.connect(MONGODB_URI);
 app.use(limiter);
 app.use(helmet());
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: [
+      'https://frontend.nomoredomainsrocks.ru',
+      'http://frontend.nomoredomainsrocks.ru',
+      'http://localhost:3000',
+    ],
+    credentials: true,
+  }),
+);
+
 app.use(requestLogger);
 app.use(cookieParser());
 
