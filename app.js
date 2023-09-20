@@ -5,13 +5,24 @@ const { errors } = require('celebrate');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const { ALLOWED_CORS } = require('./utils/constans');
 
+const corsOptions = {
+  origin(origin, callback) {
+    if (ALLOWED_CORS.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Ошибка CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routes = require('./routes');
 const { limiter } = require('./middlewares/limiter');
 const { DEV_DB, DEV_PORT } = require('./utils/constans');
-const corsOptions = require('./utils/corsOptions');
 
 const app = express();
 const { PORT = DEV_PORT, MONGODB_URI = DEV_DB } = process.env;
@@ -27,7 +38,5 @@ app.use(cookieParser());
 app.use(routes);
 
 app.use(errorLogger);
-app.use(errors());
-app.use(errorHandler);
 
 app.listen(PORT);

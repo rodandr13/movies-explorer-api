@@ -1,13 +1,4 @@
 const ALLOWED_CORS = [
-  'https://api.backend.nomoreparties.co',
-  'http://api.backend.nomoreparties.co',
-  'localhost:3001',
-  'http://localhost:3001',
-  'localhost:3000',
-  'http://localhost:3000',
-  '*',
-  'http://127.0.0.1:3000',
-  '127.0.0.1:3000',
   'http://frontend.nomoredomainsrocks.ru',
   'https://frontend.nomoredomainsrocks.ru',
 ];
