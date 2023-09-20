@@ -95,7 +95,6 @@ const login = (req, res, next) => {
       );
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
         sameSite: true,
       }).send({ token });
     })
@@ -112,7 +111,7 @@ const checkAuth = (req, res) => {
     jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
     res.json({ loggedIn: true });
   } catch (error) {
-    res.json({ loggedIn: false });
+    res.status(401).json({ loggedIn: false, message: 'Unauthorized' });
   }
 };
 
