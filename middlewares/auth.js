@@ -6,14 +6,13 @@ const { AUTHORIZATION_REQUIRED_MSG } = require('../utils/constans');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const auth = (req, res, next) => {
-  const { authorization } = req.headers;
+  const token = req.cookies.jwt;
 
-  if (!authorization || !authorization.startsWith('Bearer ')) {
+  if (!token) {
     next(new UnauthorizedError(AUTHORIZATION_REQUIRED_MSG));
     return;
   }
 
-  const token = authorization.replace('Bearer ', '');
   let payload;
 
   try {

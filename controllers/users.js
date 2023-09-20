@@ -106,6 +106,16 @@ const logout = (req, res) => {
   res.clearCookie('jwt').send({ message: LOGOUT_SUCCESS_MSG });
 };
 
+const checkAuth = (req, res) => {
+  try {
+    const token = req.cookies.jwt;
+    jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+    res.json({ loggedIn: true });
+  } catch (error) {
+    res.json({ loggedIn: false });
+  }
+};
+
 const updateUser = (req, res, next) => {
   const { name, email } = req.body;
   const userId = req.user._id;
@@ -137,4 +147,5 @@ module.exports = {
   updateUser,
   login,
   logout,
+  checkAuth,
 };
