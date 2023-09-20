@@ -104,8 +104,13 @@ const login = (req, res, next) => {
 };
 
 const logout = (req, res) => {
-  res.clearCookie('jwt').send({ message: LOGOUT_SUCCESS_MSG });
+  res.clearCookie('jwt', {
+    httpOnly: true,
+    sameSite: 'None',
+    secure: true,
+  }).send({ message: LOGOUT_SUCCESS_MSG });
 };
+
 
 const checkAuth = (req, res) => {
   try {
