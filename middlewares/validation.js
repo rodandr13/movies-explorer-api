@@ -25,15 +25,15 @@ const updateProfileValidation = celebrate({
 
 const createMovieValidation = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().required().min(2).max(30),
-    director: Joi.string().required().min(2).max(60),
+    country: Joi.string().required().min(2).max(120),
+    director: Joi.string().required().min(2).max(120),
     duration: Joi.number().required(),
     year: Joi.string().required().min(2).max(30),
     description: Joi.string().required(),
     image: Joi.string().required().regex(VALID_URL_EXPRESSION),
     trailerLink: Joi.string().required().regex(VALID_URL_EXPRESSION),
-    nameRU: Joi.string().required().min(2).max(60),
-    nameEN: Joi.string().required().min(2).max(60),
+    nameRU: Joi.string().required().min(2).max(120),
+    nameEN: Joi.string().required().min(2).max(120),
     thumbnail: Joi.string().required().regex(VALID_URL_EXPRESSION),
     movieId: Joi.number().required(),
   }),

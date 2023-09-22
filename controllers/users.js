@@ -111,7 +111,6 @@ const logout = (req, res) => {
   }).send({ message: LOGOUT_SUCCESS_MSG });
 };
 
-
 const checkAuth = (req, res) => {
   try {
     const token = req.cookies.jwt;
